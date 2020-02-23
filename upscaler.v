@@ -1,16 +1,16 @@
 `timescale 1ns / 1ps
 
 module upscalar(
-	 input clk,
+    input clk,
     input [1:0] lram_do,
     output [9:0] lram_ra,
-	 input even_line,
+    input even_line,
     input [7:0] rrow,
     input r_row_inc,
     output pix_out_valid,
     output [15:0] pix_out,
-	 output line_done,
-	 input frame
+    output line_done,
+    input frame
     );
 
 reg [3:0] rstate;
@@ -143,26 +143,11 @@ reg pixvalid;
 
 // mux in
 always @(rstate, lp, la, lb, ld, rrow, rcol, lram_do, lp_r, a_valid_r, b_valid_r, c_valid_r, d_valid_r) begin
-	//pixvalid = 1'b0;
-	/*case (rstate)
-		S_LB: begin
-			c_p = lram_do;
-			c_d = ld;
-		end
-		S_LB2: begin
-			c_p = ld_r;
-			c_d = lram_do;
-			pixvalid = 1'b1;
-		end
-	endcase*/
-	
 	c_p = lp;
 	if (rstate == S_WS)
 		c_d = lram_do;
 	else
 		c_d = ld;
-	//if (rstate == S_WS)
-	//	pixvalid = 1'b1;
 	
 	c_a = la;
 	c_b = lb;
@@ -184,11 +169,11 @@ reg [1:0] pix_o;
 // compute pixels
 always @(c_a, c_d, c_c, c_b, c_p) begin
 	// 1 and 2 are first row
-	pix_1 = c_p; //c_p;
-	pix_2 = c_p; //c_p;
+	pix_1 = c_p;
+	pix_2 = c_p;
 	// 3 and 4 are second row
-	pix_3 = c_p; //c_p;
-	pix_4 = c_p; //c_p;
+	pix_3 = c_p;
+	pix_4 = c_p;
 
 	if (c_c == c_a && c_c != c_d && c_a != c_b) pix_1 = c_a;
 	if (c_a == c_b && c_a != c_c && c_b != c_d) pix_2 = c_b;

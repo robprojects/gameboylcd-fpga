@@ -8,7 +8,6 @@
 // VSYNC - GREEN - J2A - P20
 
 module gameboy(
- //   output [0:6] led,
 	 // lcd
 	 output [7:0] d,
 	 output rst,
@@ -16,6 +15,7 @@ module gameboy(
 	 output cd,
 	 output rd,
 	 output wr,
+	 // gameboy
 	 input [1:0] gb_d,
 	 input pixclk,
 	 input vsync,

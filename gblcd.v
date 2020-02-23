@@ -10,15 +10,14 @@ module gblcd(
     output lram_we,
     output [1:0] lram_di,
     output [7:0] rrow_out,
-	 output r_row_inc_out,
+    output r_row_inc_out,
     input line_done,
-	 output frame_out,
-	 output even_line_out
+    output frame_out,
+    output even_line_out
     );
+
 reg [7:0] col;
 reg [7:0] row;
-
-
 reg [7:0] rrow;
 
 reg frame;
@@ -28,72 +27,16 @@ assign rrow_out = rrow;
 assign r_row_inc_out = r_row_inc;
 assign frame_out = frame;
 
-
-
 initial begin
-
 	col = 0;
 	row = 0;
-	
 	rrow = 0;
 end
 
 // game boy screen data
 
-/*reg [1:0] gb_d_r;
-reg [1:0] gb_d_r2;
-reg [1:0] gb_d_r3;
-
-reg pixclk_r, pixclk_r2, pixclk_r3;
-reg vsync_r, vsync_r2, vsync_r3;
-reg hsync_r, hsync_r2, hsync_r3, hsync_r4, hsync_r5;
-*/
-// synchronize and edge detect on pixclk
-/*
-always @(posedge clk) begin
-	gb_d_r <= gb_d;
-	gb_d_r2 <= gb_d_r;
-	gb_d_r3 <= gb_d_r2;
-	pixclk_r <= pixclk;
-	pixclk_r2 <= pixclk_r;
-	pixclk_r3 <= pixclk_r2;
-	vsync_r <= vsync;
-	vsync_r2 <= vsync_r;
-	vsync_r3 <= vsync_r2;
-	hsync_r <= hsync;
-	hsync_r2 <= hsync_r;
-	hsync_r3 <= hsync_r2;
-		hsync_r4 <= hsync_r3;
-				hsync_r5 <= hsync_r4;
-end
-*/
-
 reg col_en, col_en_r;
 reg col_rst;
-
-
-
-// col counter
-/*
-always @(pixclk_r3, pixclk_r2, vsync_r3, vsync_r2, hsync_r2, hsync_r5, hsync_r, col) begin
-	col_rst = 1'b0;
-	col_en = 1'b0;
-	frame = 1'b0;
-	
-	if (pixclk_r3 == 1'b0 && pixclk_r2 == 1'b1) begin
-		if (hsync_r5 == 1'b1 && col != 0) begin
-			col_rst = 1'b1;
-			col_en = 1'b1;
-		end else
-			col_en = 1'b1;
-	end
-	
-	if (vsync_r3 == 1'b0 && vsync_r2 == 1'b1) begin
-		frame = 1'b1;
-	end
-	
-end
-*/
 
 reg [1:0] gb_d_pixclk;
 reg hsync_pixclk;
@@ -232,8 +175,6 @@ always @(posedge clk) begin
 	else if (row_inc | flush_inc) begin
 		row <= row + 1;
 		row_r <= row;
-		//row_r2 <= row_r;
-		//rrow <= row_r2;
 		rrow <= row_r;
 	end
 end
@@ -293,7 +234,7 @@ always @(posedge clk) begin
 					if (skipcnt == 2)
 						fstate <= S_FFWAIT;
 					else
-						fstate <= S_FFXLINE; // fixme always do xtra line
+						fstate <= S_FFXLINE;
 			S_FFXLINE:
 				fstate <= S_FFWAITX;
 		endcase
