@@ -2,6 +2,7 @@
 
 Drive an ILI9341 based LCD from an original Gameboy using an FPGA
 
+See http://robprojects.github.io for more details.
 
 ## License
 
